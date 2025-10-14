@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: maets
+      POSTGRES_PASSWORD: maets
+      POSTGRES_DB: maets
+    ports: [ "5433:5432" ]
+    volumes: [ "pgdata:/var/lib/postgresql/data" ]
+
+  mongo:
+    image: mongo:7
+    ports: [ "27017:27017" ]
+    volumes: [ "mongodata:/data/db" ]
+
+volumes:
+  pgdata:
+  mongodata:
