@@ -10,9 +10,15 @@ import swaggerUi from 'swagger-ui-express';
 import { openapiSpec } from './docs/openapi.js';
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(morgan('dev'));
+
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/api', (req, res) =>
+    res.json({ status: 'ok', name: 'Game Library', docs: '/docs', health: '/api/health' })
+);
 
 app.use('/auth', authRoutes);
 app.use('/games', gamesRoutes);
