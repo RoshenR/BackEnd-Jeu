@@ -1,5 +1,6 @@
 import { registerService, loginService } from '../services/auth.service.js';
 
+
 export async function register(req, res, next) {
     try {
         const { status, body } = await registerService(req.body);

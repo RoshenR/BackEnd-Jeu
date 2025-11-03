@@ -23,13 +23,25 @@ Ce POC (Proof of Concept) fournit une API complète permettant :
 
 ---
 
+Le projet est développé sous **WebStorm**, configuré avec :
+- Node.js v23.6.0
+- Docker Desktop (PostgreSQL + MongoDB)
+- Prisma CLI
+- mkcert (HTTPS local)
+- MongoDB Compass
+- Prisma Studio
+- Postman (tests API)
+- Git Bash comme terminal intégré
+
+---
+
 ## ⚙️ Installation & Configuration
 
 ### 1️⃣ Cloner le dépôt
 
 ```bash
-git clone https://github.com/ton-compte/maets-backend.git
-cd maets-backend
+git clone https://github.com/RoshenR/BackEnd-Jeu.git
+cd BackEnd-Jeu
 ```
 
 
@@ -41,19 +53,20 @@ cp .env.example .env
 
 ### Et configure-le ainsi :
 
+```
+# App
 PORT=3000
 NODE_ENV=development
 JWT_SECRET=ricardo
 JWT_EXPIRES_IN=7d
 
-# PostgreSQL
-DATABASE_URL=postgresql://maets:maets@127.0.0.1:5433/maets?schema=public
+# Postgres (Prisma)
+DATABASE_URL="postgresql://maets:maets@127.0.0.1:5433/maets"
 
-# MongoDB
-MONGODB_URI=mongodb://127.0.0.1:27017/maets
-
-
-        ⚠️ Le port 5433 est utilisé pour éviter les conflits avec un Postgres local sur 5432.
+# Mongo
+MONGODB_URI="mongodb://localhost:27017/maets"
+```
+⚠️ Le port 5433 est utilisé pour éviter les conflits avec un Postgres local sur 5432.
 
 
 

@@ -13,7 +13,6 @@ export async function myLibraryService(userId) {
 }
 
 export async function addToLibraryService(userId, gameId) {
-    // Optionnel: vérifier que le jeu existe
     const exists = await prisma.game.findUnique({ where: { id: gameId } });
     if (!exists) return { status: 404, body: { message: 'Game not found' } };
 
