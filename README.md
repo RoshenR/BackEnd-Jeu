@@ -57,8 +57,9 @@ cp .env.example .env
 # App
 PORT=3000
 NODE_ENV=development
-JWT_SECRET=ricardo
+JWT_SECRET=SECRET
 JWT_EXPIRES_IN=7d
+HTTPS=true
 
 # Postgres (Prisma)
 DATABASE_URL="postgresql://maets:maets@127.0.0.1:5433/maets"
@@ -254,12 +255,3 @@ Problème	                         Solution
 ❌ Prisma ne trouve pas la base	     Lance docker compose up -d
 ❌ JWT invalide	                     Reconnecte-toi pour regénérer un token
 ❌ Port 5432 occupé	                 Utilise le port 5433 (déjà configuré ici)
-
-
-
-### 🧾 Auteur
-
-Projet développé par Ricardo Rosmaninho
-🎓 Projet scolaire – 2025
-💻 Tech : Node.js, Express, Prisma, MongoDB, Docker, Postgre
-📧 Contact : ricardo.rosmaninho-henriques@efrei.net
