@@ -3,6 +3,12 @@ stages:
   - tests
   - security-pre-scans
 
+default:
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
 lint-code:
   image: node:20-bullseye
   stage: lint
@@ -15,12 +21,12 @@ lint-yml:
   image: python:3.12-slim
   stage: lint
   before_script:
-    - pip install yamllint
+    - pip install --no-cache-dir yamllint
   script:
-    - yamllint docker-compose.yml docker-compose.full.yml .gitlab-ci.yml
+    - yamllint -c .yamllint docker-compose.yml docker-compose.full.yml .gitlab-ci.yml
 
 lint-dockerfile:
-  image: hadolint/hadolint:latest
+  image: hadolint/hadolint:v2.12.0-alpine
   stage: lint
   script:
     - hadolint Dockerfile
@@ -29,7 +35,7 @@ unit-tests:
   image: node:20-bullseye
   stage: tests
   before_script:
-    - npm install
+    - npm ci
   script:
     - npm test
 
@@ -45,6 +51,6 @@ dependencies-scan:
   stage: security-pre-scans
   allow_failure: true
   before_script:
-    - npm install
+    - npm ci
   script:
     - npm audit --audit-level=high
