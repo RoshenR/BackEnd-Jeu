@@ -1,3 +1,4 @@
+---
 stages:
   - lint
   - tests
@@ -7,7 +8,7 @@ lint-code:
   image: node:20-bullseye
   stage: lint
   before_script:
-    - npm ci
+    - npm install
   script:
     - npm run lint
 
@@ -20,7 +21,7 @@ lint-yml:
     - yamllint docker-compose.yml docker-compose.full.yml .gitlab-ci.yml
 
 lint-dockerfile:
-  image: hadolint/hadolint:latest
+  image: hadolint/hadolint:v2.12.0-alpine
   stage: lint
   script:
     - hadolint Dockerfile
@@ -29,7 +30,7 @@ unit-tests:
   image: node:20-bullseye
   stage: tests
   before_script:
-    - npm ci
+    - npm install
   script:
     - npm test
 
@@ -43,6 +44,6 @@ dependencies-scan:
   image: node:20-bullseye
   stage: security-pre-scans
   before_script:
-    - npm ci
+    - npm install
   script:
     - npm audit --audit-level=high
