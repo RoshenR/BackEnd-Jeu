@@ -2,13 +2,14 @@
   "name": "BackEnd-Jeu",
   "type": "module",
   "scripts": {
+    "test": "mocha \"tests/unit/**/*.test.js\" --timeout 10000",
+    "test:e2e": "mocha \"tests/**/*.test.js\" --timeout 20000",
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "node prisma/seed.js",
     "lint": "eslint .",
-    "test": "mocha tests/**/*.test.js --timeout 10000",
     "coverage": "nyc mocha --require dotenv/config --file tests/setup.js --timeout 20000 \"tests/**/*.test.js\" && nyc report --reporter=text-summary --reporter=html",
     "backup": "bash scripts/backup.sh"
   },

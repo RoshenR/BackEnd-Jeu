@@ -39,24 +39,8 @@ lint-dockerfile:
 unit-tests:
   image: node:20-bullseye
   stage: tests
-  services:
-    - name: postgres:16
-      alias: postgres
-  variables:
-    NODE_ENV: test
-    DB_HOST: maets
-    DB_PORT: "5432"
-    DB_USER: maets
-    DB_PW: postgres
-    DB_NAME: maets
-    POSTGRES_USER: maets
-    POSTGRES_PASSWORD: maets
-    POSTGRES_DB: maets
-    DATABASE_URL: postgresql://postgres:postgres@postgres:5432/maets?schema=public
-    JWT_SECRET: SECRET
   before_script:
-    - npm ci
-    - npx prisma generate
+    - if [ -f package-lock.json ]; then npm ci; else npm install; fi
   script:
     - npm test
 
