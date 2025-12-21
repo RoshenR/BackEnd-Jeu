@@ -53,3 +53,4 @@ function isRunningInDocker() {
         return false;
     }
 }
+
