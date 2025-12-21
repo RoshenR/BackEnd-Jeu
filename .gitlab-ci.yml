@@ -1,0 +1,48 @@
+stages:
+  - lint
+  - tests
+  - security-pre-scans
+
+lint-code:
+  image: node:20-bullseye
+  stage: lint
+  before_script:
+    - npm ci
+  script:
+    - npm run lint
+
+lint-yml:
+  image: python:3.12-slim
+  stage: lint
+  before_script:
+    - pip install yamllint
+  script:
+    - yamllint docker-compose.yml docker-compose.full.yml .gitlab-ci.yml
+
+lint-dockerfile:
+  image: hadolint/hadolint:latest
+  stage: lint
+  script:
+    - hadolint Dockerfile
+
+unit-tests:
+  image: node:20-bullseye
+  stage: tests
+  before_script:
+    - npm ci
+  script:
+    - npm test
+
+code-static-analysis:
+  image: returntocorp/semgrep:1.92.0
+  stage: security-pre-scans
+  script:
+    - semgrep --config=auto --error
+
+dependencies-scan:
+  image: node:20-bullseye
+  stage: security-pre-scans
+  before_script:
+    - npm ci
+  script:
+    - npm audit --audit-level=high
