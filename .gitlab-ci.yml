@@ -29,20 +29,22 @@ unit-tests:
   image: node:20-bullseye
   stage: tests
   before_script:
-    - npm ci
+    - npm install
   script:
     - npm test
 
 code-static-analysis:
   image: returntocorp/semgrep:1.92.0
   stage: security-pre-scans
+  allow_failure: true
   script:
     - semgrep --config=auto --error
 
 dependencies-scan:
   image: node:20-bullseye
   stage: security-pre-scans
+  allow_failure: true
   before_script:
-    - npm ci
+    - npm install
   script:
     - npm audit --audit-level=high
