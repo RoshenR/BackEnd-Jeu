@@ -2,8 +2,8 @@ import fs from 'fs';
 const { version } = JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url)));
 export const openapiSpec = {
     openapi: '3.0.0',
-    info: { title: 'Maets API', version },
-    servers: [{ url: 'http://localhost:3000' }],
+    info: { title: 'BackEnd-Jeu', version },
+    servers: [{ url: 'http://localhost:3001' }],
     paths: {
         '/auth/register': { post: { summary: 'Register', responses: { '201': { description: 'Created' }}} },
         '/auth/login':    { post: { summary: 'Login',    responses: { '200': { description: 'OK' }}} },

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maets — Game Library</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<header class="header">
+    <div class="brand">
+        <div class="logo">🎮</div>
+        <div>
+            <h1>Maets</h1>
+            <p class="muted">Front minimal pour tester Auth + Library</p>
+        </div>
+    </div>
+
+    <div class="apiBox">
+        <span class="muted">API</span>
+        <code id="apiUrl">...</code>
+    </div>
+</header>
+
+<main class="grid">
+    <section class="card">
+        <h2>Register</h2>
+        <label>Email</label>
+        <input id="regEmail" placeholder="user@dev.local" />
+        <label>Password</label>
+        <input id="regPass" type="password" placeholder="pass123" />
+        <div class="row">
+            <button id="btnRegister">POST /auth/register</button>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Login</h2>
+        <label>Email</label>
+        <input id="logEmail" placeholder="user@dev.local" />
+        <label>Password</label>
+        <input id="logPass" type="password" placeholder="pass123" />
+        <div class="row">
+            <button id="btnLogin">POST /auth/login</button>
+            <button class="ghost" id="btnLogout">Logout</button>
+        </div>
+        <p class="muted small">Le JWT est stocké en <code>localStorage</code>.</p>
+
+        <div class="row">
+            <button class="ghost" id="btnMe">GET /auth/me</button>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Ma bibliothèque</h2>
+        <div class="row">
+            <button id="btnLibrary">GET /library</button>
+        </div>
+
+        <div class="cols">
+            <div>
+                <h3>Ajouter / Retirer un jeu</h3>
+                <label>gameId</label>
+                <input id="libGameId" placeholder="1" />
+                <div class="row">
+                    <button id="btnAdd">POST /library/:gameId</button>
+                    <button class="danger" id="btnRemove">DELETE /library/:gameId</button>
+                </div>
+                <p class="muted small">Il faut être loggué (token) sinon 401.</p>
+            </div>
+
+            <div>
+                <h3>Contenu</h3>
+                <div id="libraryList" class="list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card full">
+        <h2>Résultat (debug)</h2>
+        <pre id="out" class="out"></pre>
+    </section>
+</main>
+
+<footer class="footer">
+    <span class="muted">Routes: /auth/*, /library*</span>
+</footer>
+
+<script src="./app.js"></script>
+</body>
+</html>
