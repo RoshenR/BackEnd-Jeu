@@ -1,93 +1,268 @@
-# TP3
+# API BackEnd-Jeu
+
+Maets est une librairie de jeux vidéo connectée développée en Node.js / Express.
+Ce Proof of Concept (POC) propose une API complète permettant de :
+
+✅ Authentifier les utilisateurs via JWT
+
+🎮 Gérer une librairie de jeux avec PostgreSQL (Prisma ORM)
+
+⚙️ Gérer les configurations de jeux via MongoDB (Mongoose)
+
+👑 Administrer les jeux et les bibliothèques utilisateur
+
+🧾 Documenter et tester l’API avec Swagger et Postman
 
 
+# Stack technique
 
-## Getting started
+| Technologie                  | Utilisation                                     |
+| ---------------------------- | ----------------------------------------------- |
+| **Node.js / Express.js**     | API REST principale                             |
+| **PostgreSQL**               | Stockage principal (users, jeux, bibliothèques) |
+| **Prisma ORM**               | Mapping SQL et migrations                       |
+| **MongoDB (Mongoose)**       | Gestion des configurations de jeux              |
+| **JWT / bcrypt**             | Authentification et rôles                       |
+| **Docker Compose**           | Environnement de développement                  |
+| **Swagger UI**               | Documentation interactive                       |
+| **Mocha / Chai / Supertest** | Tests automatisés                               |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+# Environnement de développement
 
-## Add your files
+Le projet est développé sous WebStorm, configuré avec :
 
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+Node.js v23.6.0
+
+Docker Desktop (PostgreSQL + MongoDB)
+
+Prisma CLI et Prisma Studio
+
+mkcert (certificats HTTPS locaux)
+
+MongoDB Compass
+
+Postman pour les tests API
+
+
+# Installation et Configuration
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/b3-dev-efrei-2025/tp3.git
-git branch -M main
-git push -uf origin main
+cd BackEnd-Jeu
 ```
 
-## Integrate with your tools
+```
+cp .env.example .env
+```
 
-* [Set up project integrations](https://gitlab.com/b3-dev-efrei-2025/tp3/-/settings/integrations)
+```
+# Application
+PORT=3001
+NODE_ENV=development
+JWT_SECRET=SECRET
+JWT_EXPIRES_IN=7d
+HTTPS=true
 
-## Collaborate with your team
+# PostgreSQL
+DATABASE_URL="postgresql://maets:maets@127.0.0.1:5433/maets"
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+# MongoDB
+MONGODB_URI="mongodb://localhost:27017/maets"
+```
 
-## Test and Deploy
+! ⚠️ Le port 5433 est utilisé pour éviter les conflits avec un Postgres local sur 5432. !
 
-Use the built-in continuous integration in GitLab.
+# Lancer l’environnement Docker
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```
+docker compose up -d
+```
 
-***
+```
+docker compose ps
+```
 
-# Editing this README
+### Exemple attendu :
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| Name                   | Image       | Ports                    |
+| ---------------------- | ----------- | ------------------------ |
+| backend-jeu-mongo-1    | mongo:7     | 0.0.0.0:27017->27017/tcp |
+| backend-jeu-postgres-1 | postgres:16 | 0.0.0.0:5433->5432/tcp   |
 
-## Suggestions for a good README
+### Vérifier les logs
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```
+docker logs backend-jeu-postgres-1 --tail=20
+```
 
-## Name
-Choose a self-explaining name for your project.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# Prisma (PostgreSQL)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Générer le client Prisma
+```
+npx prisma generate
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Synchroniser le schéma avec la base
+```
+npx prisma db push
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Insérer des données de démonstration
+```
+npm run db:seed
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+# Lancer le serveur
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+```
+npm run dev
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Le serveur démarre par défaut sur :
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+https://localhost:3001
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
-## License
-For open source projects, say how it is licensed.
+# Documentation API
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Swagger (Documentation interactive)
+
+Accessible à :
+https://localhost:3001/docs
+
+
+## Authentification (JWT)
+
+| Méthode | Endpoint         | Auth | Description                                         |
+| ------- | ---------------- | ---- | --------------------------------------------------- |
+| POST    | `/auth/register` | ❌    | Crée un compte utilisateur                          |
+| POST    | `/auth/login`    | ❌    | Connecte un utilisateur (retourne un JWT)           |
+| GET     | `/auth/me`       | ✅    | Retourne les informations de l’utilisateur connecté |
+
+### Exemple /auth/login
+
+```
+POST https://localhost:3000/auth/login
+
+{
+  "email": "user@dev.local",
+  "password": "pass123"
+}
+```
+
+## Jeux (PostgreSQL)
+
+| Méthode | Endpoint     | Auth | Rôle  | Description         |
+| ------- | ------------ | ---- | ----- | ------------------- |
+| GET     | `/games`     | ✅    | Tous  | Liste tous les jeux |
+| POST    | `/games`     | ✅    | Admin | Crée un jeu         |
+| DELETE  | `/games/:id` | ✅    | Admin | Supprime un jeu     |
+
+
+### Exemple POST /games
+
+```
+POST https://localhost:3000/games
+
+{
+  "title": "Doom",
+  "publisher": "id Software",
+  "year": 1993,
+  "coverUrl": "https://example.com/doom.jpg"
+}
+```
+
+
+# Bibliothèque utilisateur
+
+| Méthode | Endpoint           | Auth | Description                        |
+| ------- | ------------------ | ---- | ---------------------------------- |
+| GET     | `/library`         | ✅    | Liste les jeux possédés            |
+| POST    | `/library/:gameId` | ✅    | Ajoute un jeu à la bibliothèque    |
+| DELETE  | `/library/:gameId` | ✅    | Supprime un jeu de la bibliothèque |
+
+
+# Configurations de jeux (MongoDB)
+
+| Méthode | Endpoint                  | Auth | Description                          |
+| ------- | ------------------------- | ---- | ------------------------------------ |
+| GET     | `/library/:gameId/config` | ✅    | Récupère la configuration d’un jeu   |
+| PUT     | `/library/:gameId/config` | ✅    | Crée ou met à jour une configuration |
+
+
+### Exemple PUT /library/1/config
+
+```
+PUT https://localhost:3000/library/1/config
+
+{
+  "settings": {
+    "difficulty": "hard",
+    "fov": 100
+  }
+}
+```
+
+
+# Administration
+
+| Méthode | Endpoint       | Auth | Rôle  | Description                                      |
+| ------- | -------------- | ---- | ----- | ------------------------------------------------ |
+| POST    | `/admin/grant` | ✅    | Admin | Ajoute un jeu à la bibliothèque d’un utilisateur |
+
+
+### Exemple
+
+```
+POST https://localhost:3000/admin/grant
+
+{
+  "userId": 2,
+  "gameId": 1
+}
+```
+
+
+# Tests
+
+## Lancer les tests automatisés
+
+```
+npm test
+```
+
+Tests couverts :
+Authentification (register, login, me)
+Jeux (CRUD)
+Bibliothèque (ajout/suppression/config)
+Administration
+Tests unitaires (services)
+
+
+# Tests avec Postman
+
+1️⃣ Ouvre Postman
+
+2️⃣ Crée une collection BackEnd-Jeu
+
+3️⃣ Ajoute les requêtes principales (auth, games, library, config, admin)
+
+4️⃣ Configure l’Authorization → Type : Bearer Token
+
+5️⃣ Copie le JWT obtenu après le login
+
+# Dépannage
+
+| Problème                         | Cause possible                   | Solution                                  |
+| -------------------------------- | -------------------------------- | ----------------------------------------- |
+| ❌ `P1000: Authentication failed` | Mauvais mot de passe PostgreSQL  | Vérifie la variable `DATABASE_URL`        |
+| ❌ `Prisma ne trouve pas la base` | Conteneur arrêté                 | Lance `docker compose up -d`              |
+| ❌ `JWT invalide`                 | Token expiré                     | Reconnecte-toi pour en générer un nouveau |
+| ❌ `Port 5432 occupé`             | Conflit avec une instance locale | Utilise le port 5433 (déjà configuré)     |
+
+
+
+### Tech Stack : Node.js, Express, Prisma, MongoDB, Docker
