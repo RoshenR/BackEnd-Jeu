@@ -39,6 +39,22 @@ lint-dockerfile:
 unit-tests:
   image: node:20-bullseye
   stage: tests
+  variables:
+    NODE_ENV: test
+
+    DB_HOST: localhost
+    DB_PORT: "5432"
+    DB_USER: postgres
+    DB_PW: postgres
+    DB_NAME: test_db
+
+    DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?schema=public
+
+    MONGO_URI: mongodb://localhost:27017/test_db
+
+    JWT_SECRET: test_secret
+
+    PORT: "3001"
   before_script:
     - npm ci
   script:
