@@ -48,9 +48,8 @@ unit-tests:
 code-static-analysis:
   image: returntocorp/semgrep:1.92.0
   stage: security-pre-scans
-  allow_failure: true
   script:
-    - semgrep --config=auto --error
+    - semgrep --config=semgrep.yml --error --metrics=off
 
 dependencies-scan:
   image: node:20-bullseye
