@@ -1,3 +1,5 @@
+---
+version: "3.9"
 services:
   postgres:
     image: postgres:16
@@ -15,32 +17,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
-
-  api:
-    image: node:23-alpine
-    working_dir: /app
-    volumes:
-      - ./:/app
-    env_file:
-      - ./.env
-    command: sh -lc "npm ci && npx prisma generate && npx prisma db push && npm run dev"
-    ports:
-      - "3001:${APP_PORT}"
-    depends_on:
-      - postgres
-      - mongo
-
-  front:
-    build:
-      context: ./front
-    environment:
-      # ✅ HTTP car HTTPS=false dans .env
-      API_URL: http://localhost:3001
-    ports:
-      - "8080:80"
-    depends_on:
-      - api
+      - mongodata:/data/db
 
 volumes:
   pg_data:
