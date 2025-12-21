@@ -13,7 +13,7 @@ lint-code:
   image: node:20-bullseye
   stage: lint
   before_script:
-    - npm ci
+    - if [ -f package-lock.json ]; then npm ci; else npm install; fi
   script:
     - npm run lint
 
