@@ -39,26 +39,27 @@ lint-dockerfile:
 unit-tests:
   image: node:20-bullseye
   stage: tests
+  services:
+    - name: postgres:16
+      alias: postgres
   variables:
     NODE_ENV: test
-
-    DB_HOST: localhost
+    DB_HOST: maets
     DB_PORT: "5432"
-    DB_USER: postgres
+    DB_USER: maets
     DB_PW: postgres
-    DB_NAME: test_db
-
-    DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?schema=public
-
-    MONGO_URI: mongodb://localhost:27017/test_db
-
-    JWT_SECRET: test_secret
-
-    PORT: "3001"
+    DB_NAME: maets
+    POSTGRES_USER: maets
+    POSTGRES_PASSWORD: maets
+    POSTGRES_DB: maets
+    DATABASE_URL: postgresql://postgres:postgres@postgres:5432/maets?schema=public
+    JWT_SECRET: SECRET
   before_script:
     - npm ci
+    - npx prisma generate
   script:
     - npm test
+
 
 code-static-analysis:
   image: returntocorp/semgrep:1.92.0
