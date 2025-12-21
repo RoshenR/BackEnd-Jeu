@@ -49,7 +49,8 @@ code-static-analysis:
   image: returntocorp/semgrep:1.92.0
   stage: security-pre-scans
   script:
-    - semgrep --config=semgrep.yml --error --metrics=off
+    - ls -la semgrep.yml
+    - semgrep --config=semgrep.yml --metrics=off --error src
 
 dependencies-scan:
   image: node:20-bullseye

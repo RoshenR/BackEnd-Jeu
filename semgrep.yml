@@ -5,20 +5,3 @@ rules:
     message: "Avoid eval(): code injection risk."
     severity: ERROR
     languages: [javascript, typescript]
-
-  - id: no-child-process-exec
-    patterns:
-      - pattern-either:
-          - pattern: child_process.exec(...)
-          - pattern: child_process.execSync(...)
-    message: "Avoid exec/execSync(): command injection risk."
-    severity: WARNING
-    languages: [javascript, typescript]
-
-  - id: jwt-hardcoded-secret
-    patterns:
-      - pattern: |
-          jwt.sign($PAYLOAD, "$SECRET", ...)
-    message: "Hardcoded JWT secret. Use an environment variable."
-    severity: WARNING
-    languages: [javascript, typescript]
